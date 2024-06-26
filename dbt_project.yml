@@ -39,7 +39,16 @@ models:
   portfolio_tracking:
     # Applies to all files under models/example/
       +materialized: view
-
+      staging:
+        +materialized: view
+        +schema: STAGING
       refined:
         +materialized: table
         +schema: REFINED
+      marts:
+        portfolio:
+          +materialized: table
+          +schema: MART_PORTFOLIO
+snapshots:
+  portfolio_tracking:
+    +target_schema: SNAPSHOTS
