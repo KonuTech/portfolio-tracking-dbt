@@ -1,7 +1,11 @@
-WITH
+with
+
     current_from_snapshot as (
-        SELECT * FROM {{ ref('SNSH_ABC_BANK_POSITION') }}
-WHERE DBT_VALID_TO is null
+        select * from {{ ref("SNSH_ABC_BANK_POSITION") }} where dbt_valid_to is null
     )
-SELECT *
-FROM current_from_snapshot
+
+select
+    *,
+    position_value - cost_base as unrealized_profit,
+    round(unrealized_profit / cost_base, 5) * 100 as unrealized_profit_pct
+from current_from_snapshot
